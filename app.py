@@ -21,8 +21,16 @@ CHANNEL_MAPPINGS = {
         'marchitecture': ['containers'],
         'products': ['amazon-ecs', 'amazon-eks', 'amazon-ecr', 'aws-app-mesh', 'aws-cloud-map', 'aws-copilot', 'aws-app-runner']
     },
-    'machine-learning':{
+    'frontend': {
         'marchitecture': [],
+        'products': ['aws-amplify']
+    },
+    'iot': {
+        'marchitecture': ['internet-of-things'],
+        'products': []
+    },
+    'machine-learning':{
+        'marchitecture': ['artificial-intelligence'],
         'products': ['sagemaker']
     },
 }
