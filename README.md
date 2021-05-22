@@ -1,4 +1,4 @@
-# AWS Update Notification
+# AWS Update Notification for Discord
 
 ## Parameter Store への Webhook の登録
 
@@ -13,6 +13,7 @@ aws ssm put-parameter --type String --name /startup-community/discord/webhooks/<
 
 ```bash
 chalice deploy
+```
 
 ## Invoke
 
