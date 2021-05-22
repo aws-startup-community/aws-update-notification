@@ -46,14 +46,14 @@ app = Chalice(app_name='aws-update-notification')
 # Automatically runs every 1 hour
 @app.schedule(Rate(RATE_HOUR, unit=Rate.HOURS))
 def check_news(event):
-    now = datetime.now(timezone.utc)
+    event_time = datetime.strptime(event.time, '%Y-%m-%dT%H:%M:%S%z')
     try:
         feed = feedparser.parse(RSS_URL)
     except expression as e:
         logger.error(e)
     for entry in feed.entries:
         entry_date = datetime.strptime(entry.updated, '%a, %d %b %Y %H:%M:%S %z')
-        if now - timedelta(hours=RATE_HOUR) <= entry_date < now and len(entry.tags) > 0:
+        if event_time - timedelta(hours=RATE_HOUR) <= entry_date < event_time and len(entry.tags) > 0:
             tag = entry.tags[0]
             products = []
             use_case = []
