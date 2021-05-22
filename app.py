@@ -37,6 +37,43 @@ def get_parameters(path='/'):
         params[key] = val
     return params
 
+def gen_payload(entry, products, marchitecture, target='discord'):
+    if len(entry.summary) > 0:
+        translated_summary = translate.translate_text(
+            Text=BeautifulSoup(entry.summary,"html.parser").get_text(),
+            SourceLanguageCode='en',
+            TargetLanguageCode='ja'
+        )['TranslatedText']
+    else:
+        translated_summary = ''
+    if target == 'discord':
+        embeds = [
+            {
+                'title': entry.title,
+                'description': translated_summary,
+                'url': entry.link,
+                'footer': {
+                    'text': entry.updated
+                },
+                "fields": [
+                    {
+                        'name': "Product",
+                        'value': ', '.join(products),
+                        'inline': True
+                    },
+                    {
+                        'name': 'Marchitecture',
+                        'value': ', '.join(marchitecture),
+                        'inline': True
+                    },
+                ]
+            }
+        ]
+        payload = {'username': BOT_NAME, 'embeds': embeds}
+    else:
+        payload = {'content': entry.link}
+    return payload
+
 discord_webhooks = get_parameters(path='/startup-community/discord/webhooks/')
 
 translate = boto3.client('translate')
@@ -76,40 +113,11 @@ def check_news(event):
                         'entry': entry,
                     })
 
-            if len(entry.summary) > 0:
-                summary = translate.translate_text(
-                    Text=BeautifulSoup(entry.summary,"html.parser").get_text(),
-                    SourceLanguageCode='en',
-                    TargetLanguageCode='ja'
-                )['TranslatedText']
-            else:
-                summary = ''
-
             headers = {'Content-Type': 'application/json'}
-            embeds = [
-                {
-                    'title': f'{entry.title}',
-                    'description': f'{summary}',
-                    'url': f'{entry.link}',
-                    'footer': {
-                        'text': entry.updated
-                    },
-                    "fields": [
-                        {
-                            'name': "Product",
-                            'value': ', '.join(products),
-                            'inline': True
-                        },
-                        {
-                            'name': 'Marchitecture',
-                            'value': ', '.join(marchitecture),
-                            'inline': True
-                        },
-                    ]
-                }
-            ]
-            payload = {'username': BOT_NAME, 'embeds': embeds}
+            payload = gen_payload(entry, products, marchitecture, target='discord')
+
             # カテゴリ別
+            post_flag = False
             for channel_name in CHANNEL_MAPPINGS.keys():
                 marchitecture_intersection = set(marchitecture) & set(CHANNEL_MAPPINGS[channel_name]['marchitecture'])
                 products_intersection = set(products) & set(CHANNEL_MAPPINGS[channel_name]['products'])
@@ -117,14 +125,19 @@ def check_news(event):
                     if channel_name in discord_webhooks:
                         webhook_url = discord_webhooks[channel_name]
                         res = requests.post(webhook_url, data=json.dumps(payload), headers=headers)
+                        post_flag = True
                     else:
                         logger.error({
-                            'msg': f'{channel_name} not in SSM Parameter Store',
+                            'msg': f'"{channel_name}" not in SSM Parameter Store',
                             'channel_name': channel_name,
                             'payload': payload,
                         })
-                #logger.warn({
-                #    'msg': 'Unmached with CHANNEL_MAPPINGS',
-                #    'payload': payload,
-                #})
+            if not post_flag:
+                if 'default' in discord_webhooks:
+                    webhook_url = discord_webhooks['default']
+                    res = requests.post(webhook_url, data=json.dumps(payload), headers=headers)
+                else:
+                    logger.error({
+                        'msg': '"default" not in SSM Parameter Store',
+                    })
     return {}

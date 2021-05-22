@@ -2,7 +2,8 @@
 
 ## Parameter Store への Webhook の登録
 
-事前に `/startup-community/discord/webhooks/<channel_name>` に webhook の URL を入れておく必要がある。
+事前に `/startup-community/discord/webhooks/<channel_name>` に webhook の URL を入れておく必要がある。ただし、`/startup-community/discord/webhooks/default` は必須。
+
 ※ Parameter の Prefix が決め打ちになっているので、そのうち直したい。
 
 ```bash
