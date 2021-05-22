@@ -2,6 +2,9 @@
 
 ## Parameter Store への Webhook の登録
 
+事前に `/startup-community/discord/webhooks/<channel_name>` に webhook の URL を入れておく必要がある。
+※ Parameter の Prefix が決め打ちになっているので、そのうち直したい。
+
 ```bash
 aws ssm put-parameter --type String --name /startup-community/discord/webhooks/<channel_name> --value https://discord.com/api/webhooks/1234/ABCD
 ```
