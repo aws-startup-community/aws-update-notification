@@ -28,13 +28,14 @@ CHANNEL_MAPPINGS = {
 }
 
 def get_parameters(path='/'):
-    webhooks = {}
+    params = {}
     ssm = boto3.client('ssm')
-    parameters = ssm.get_parameters_by_path(Path=path)['Parameters']
-    for parameter in parameters:
-        channel_name = parameter['Name'].replace(path, '')
-        webhooks[channel_name] = parameter['Value']
-    return webhooks
+    res = ssm.get_parameters_by_path(Path=path)
+    for parameter in res['Parameters']:
+        key = parameter['Name'].replace(path, '')
+        val = parameter['Value']
+        params[key] = val
+    return params
 
 discord_webhooks = get_parameters(path='/startup-community/discord/webhooks/')
 
