@@ -9,17 +9,32 @@ aws ssm put-parameter --type String --name /startup-community/discord/webhooks/<
 ## Deploy
 
 ```bash
-chalice deploy [--stage prod] [--profile prod]
-```
+chalice deploy
 
 ## Invoke
 
 ```bash
-cat test-event.json | chalice invoke -n check_news [--stage prod] [--profile prod]
+cat test-event.json | chalice invoke -n check_news
 ```
 
 ## Delete
 
 ```bash
-chalice delete [--stage prod] [--profile prod]
+chalice delete
+```
+
+## Pipeline
+
+```bash
+aws secretsmanager create-secret --name GithubRepoAccess \
+  --description "Token for Github Repo Access" \
+  --secret-string '{"OAuthToken": "xxxxxxxx"}'
+
+aws cloudformation deploy \
+    --template-file pipeline.json \
+    --capabilities CAPABILITY_IAM \
+    --stack-name {{ }} \
+    --parameter-overrides \
+        GithubOwner={{ }} \
+        GithubRepoName={{  }} \
 ```
