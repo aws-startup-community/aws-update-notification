@@ -81,6 +81,13 @@
               ],
               "Resource": "arn:*:s3:::*",
               "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "ssm:GetParametersByPath"
+              ],
+              "Resource": "*",
+              "Effect": "Allow"
             }
           ]
         },
