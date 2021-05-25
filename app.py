@@ -112,7 +112,7 @@ def check_news(event):
         logger.error(e)
     for entry in feed.entries:
         entry_date = datetime.strptime(entry.updated, '%a, %d %b %Y %H:%M:%S %z')
-        if event_time - timedelta(hours=RATE_HOUR) <= entry_date < event_time and len(entry.tags) > 0:
+        if event_time - timedelta(hours=RATE_HOUR) <= entry_date and len(entry.tags) > 0:
             tag = entry.tags[0]
             products = []
             use_case = []
