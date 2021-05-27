@@ -36,10 +36,10 @@ aws secretsmanager create-secret --name GithubRepoAccess \
   --secret-string '{"OAuthToken": "xxxxxxxx"}'
 
 aws cloudformation deploy \
-    --template-file pipeline.json \
+    --template-file pipeline.yml \
     --capabilities CAPABILITY_IAM \
     --stack-name {{ }} \
     --parameter-overrides \
         GithubOwner={{ }} \
-        GithubRepoName={{  }} \
+        GithubRepoName={{  }}
 ```
