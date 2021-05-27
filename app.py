@@ -147,6 +147,11 @@ def check_news(event):
                     if channel_name in discord_webhooks:
                         target_url = discord_webhooks[channel_name]
                         res = post_entry(target_url, entry, products, marchitecture)
+                        logger.info({
+                            'channel': channel_name,
+                            'response': res,
+                            'entry': entry,
+                        })
                         post_flag = True
                     else:
                         logger.error(f'"{channel_name}" not in SSM Parameter Store')
@@ -154,6 +159,11 @@ def check_news(event):
                 if 'default' in discord_webhooks:
                     target_url = discord_webhooks['default']
                     res = post_entry(target_url, entry, products, marchitecture)
+                    logger.info({
+                        'channel': 'default',
+                        'response': res,
+                        'entry': entry
+                    })
                 else:
                     logger.error('"default" not in SSM Parameter Store')
     return {}
