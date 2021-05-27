@@ -33,6 +33,10 @@ CHANNEL_MAPPINGS = {
         'marchitecture': ['artificial-intelligence'],
         'products': ['sagemaker']
     },
+    'security':{
+        'marchitecture': ['security-identity-and-compliance'],
+        'products': ['aws-certificate-manager']
+    },
 }
 SSM_PARAMETERS_PATH = '/update-notification/target/webhooks/'
 
