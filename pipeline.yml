@@ -19,13 +19,11 @@ Parameters:
   GithubRepoSecretId:
     Type: String
     Default: GithubRepoAccess
-    Description: The name/ID of the SecretsManager secret that contains the personal
-      access token for the github repo.
+    Description: The name/ID of the SecretsManager secret that contains the personal access token for the github repo.
   GithubRepoSecretJSONKey:
     Type: String
     Default: OAuthToken
-    Description: The name of the JSON key in the SecretsManager secret that contains
-      the personal access token for the github repo.
+    Description: The name of the JSON key in the SecretsManager secret that contains the personal access token for the github repo.
 
 Resources:
 
