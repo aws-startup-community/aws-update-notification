@@ -10,7 +10,6 @@ import boto3
 logger = Logger()
 
 RATE_HOUR = 1
-BOT_NAME = 'aws-update-notification'
 RSS_URL = 'https://aws.amazon.com/about-aws/whats-new/recent/feed/'
 CHANNEL_MAPPINGS = {
     'analytics': {
@@ -40,6 +39,9 @@ CHANNEL_MAPPINGS = {
 }
 SSM_PARAMETERS_PATH = '/update-notification/target/webhooks/'
 
+DISCORD_BOT_NAME = "What's New with AWS?"
+DISCORD_AVATAR_URL = 'https://a0.awsstatic.com/libra-css/images/site/touch-icon-ipad-144-smile.png'
+
 def get_parameters(path='/'):
     params = {}
     ssm = boto3.client('ssm')
@@ -62,7 +64,8 @@ def post_entry(target_url, entry, products, marchitecture):
     # Discord
     if target_url.startswith('https://discord.com/api/webhooks/'):
         payload = {
-            'username': BOT_NAME,
+            'username': DISCORD_BOT_NAME,
+            'avatar_url': DISCORD_AVATAR_URL,
             'embeds': [
                 {
                     'title': entry.title,
