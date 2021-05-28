@@ -36,6 +36,10 @@ CHANNEL_MAPPINGS = {
         'marchitecture': ['security-identity-and-compliance'],
         'products': ['aws-certificate-manager']
     },
+    'serverless':{
+        'marchitecture': ['serverless'],
+        'products': []
+    },
 }
 SSM_PARAMETERS_PATH = '/update-notification/target/webhooks/'
 
