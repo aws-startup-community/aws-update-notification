@@ -20,6 +20,10 @@ CHANNEL_MAPPINGS = {
         'marchitecture': ['containers'],
         'products': ['amazon-ecs', 'amazon-eks', 'amazon-ecr', 'aws-app-mesh', 'aws-cloud-map', 'aws-copilot', 'aws-app-runner']
     },
+    'databases': {
+        'marchitecture': ['databases'],
+        'products': []
+    },
     'frontend': {
         'marchitecture': [],
         'products': ['aws-amplify']

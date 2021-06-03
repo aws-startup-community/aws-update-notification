@@ -10,6 +10,10 @@
 aws ssm put-parameter --type String --name /update-notification/target/webhooks/<channel_name> --value https://discord.com/api/webhooks/1234/ABCD
 ```
 
+```bash
+aws ssm get-parameters-by-path --path /update-notification/target/webhooks/
+```
+
 ## Deploy
 
 ```bash
